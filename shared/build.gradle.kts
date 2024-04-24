@@ -1,8 +1,9 @@
 plugins {
     kotlin("multiplatform")
-
+    kotlin("plugin.serialization")
     id("com.android.library")
     id("org.jetbrains.compose")
+
 }
 
 kotlin {
@@ -31,6 +32,9 @@ kotlin {
                 implementation(compose.components.resources)
 
 
+                api("io.insert-koin:koin-core:3.4.3")
+                api("io.insert-koin:koin-compose:1.0.4")
+
                 val ktor = "2.2.2"
 
                 implementation("io.ktor:ktor-client-core:${ktor}")
@@ -40,9 +44,32 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:${ktor}")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${ktor}")
                 implementation("io.ktor:ktor-client-resources:${ktor}")
+
+
+                val arrow = "1.0.1"
+
+                implementation("io.arrow-kt:arrow-core:${arrow}")
+                implementation("io.arrow-kt:arrow-fx-coroutines:${arrow}")
+                implementation("io.arrow-kt:arrow-fx-stm:${arrow}")
+
+
+                // region Kotlinx
+
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+
+
+
+
+                api("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
+                api("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatfrom
+
             }
         }
         val androidMain by getting {
+            val koinVersion = "3.3.2"
             dependencies {
                 api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
@@ -50,6 +77,9 @@ kotlin {
 
                 implementation("io.ktor:ktor-client-android:2.2.2")
                 implementation("io.ktor:ktor-client-okhttp:2.2.2")
+
+
+                api("io.insert-koin:koin-android:$koinVersion")
             }
         }
         val iosX64Main by getting
