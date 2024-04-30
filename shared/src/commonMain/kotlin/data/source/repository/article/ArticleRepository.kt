@@ -7,5 +7,5 @@ import data.source.remote.model.dto.ArticleDto
 
 interface ArticleRepository {
 
-    suspend fun getArticle(queryKey:String,from:String,sortBy:String): Either<Failure.NetworkFailure, List<ArticleModel>>
+suspend fun getArticle(queryKey:String,from:String,sortBy:String): Either<Failure.NetworkFailure, List<ArticleModel>>
 }

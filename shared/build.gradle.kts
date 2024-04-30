@@ -3,13 +3,13 @@ plugins {
     kotlin("plugin.serialization")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id ("kotlin-parcelize")
+
 
 }
 
 kotlin {
     androidTarget()
-
-    jvm("desktop")
 
     listOf(
         iosX64(),
@@ -66,6 +66,22 @@ kotlin {
                 api("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
                 api("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatfrom
 
+
+
+                implementation("media.kamel:kamel-image:0.9.1")
+
+//                //navigation
+//                val voyagerVersion = "1.0.0-rc07"
+//                implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+//                implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
+//                implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
+
+//                implementation ("androidx.navigation:navigation-compose:2.4.0-alpha01")
+
+                implementation("io.github.xxfast:decompose-router:0.4.0")
+                implementation("com.arkivanov.decompose:decompose:2.1.2")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.1.0-compose-experimental-alpha-07")
+                implementation("com.arkivanov.essenty:parcelable:1.2.0")
             }
         }
         val androidMain by getting {
@@ -80,6 +96,9 @@ kotlin {
 
 
                 api("io.insert-koin:koin-android:$koinVersion")
+
+                implementation("com.google.accompanist:accompanist-navigation-animation:0.28.0")
+                implementation("com.google.accompanist:accompanist-navigation-material:0.28.0")
             }
         }
         val iosX64Main by getting
@@ -92,12 +111,14 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies{
                 implementation("io.ktor:ktor-client-darwin:2.2.2")
-            }
-        }
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.desktop.common)
                 implementation("io.ktor:ktor-client-darwin:2.2.2")
+
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+
+                implementation("io.github.xxfast:decompose-router:0.4.0")
+                implementation("com.arkivanov.decompose:decompose:2.1.2")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.1.0-compose-experimental-alpha-07")
+                implementation("com.arkivanov.essenty:parcelable:1.2.0")
             }
         }
     }
@@ -121,4 +142,9 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+}
+dependencies {
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 }

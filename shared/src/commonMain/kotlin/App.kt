@@ -1,39 +1,68 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+
 import androidx.compose.material.Button
+
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+
+import di.dataModule
+import di.dataPlatformModule
+import di.repositoryModule
+
+import di.viewModelModule
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.KoinApplication
+
+import presentation.screen.navigation.AppNavigation
+
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun App() {
-    MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello, World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                greetingText = "Hello, ${getPlatformName()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
+fun App(context: Any? = null) {
+    KoinApplication(application = {
+        modules(dataPlatformModule(context), dataModule, repositoryModule, viewModelModule)
+    }) {
+
+
+        MaterialTheme {
+            AppNavigation()
+        }
+    }
+}
+
+
+@Composable
+fun BottomNav(onMainClick: () -> Unit, onArticleClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxSize(),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+
+        Button(onClick = {
+            onMainClick()
+        }) {
+            Column {
+                Icons.Default.Home
+                Text("Home")
             }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    contentDescription = "Compose Multiplatform icon"
-                )
-            }
+        }
+
+        Button(onClick = {
+            onArticleClick()
+        }) {
+            Icons.Default.Star
+            Text("Article")
         }
     }
 }
